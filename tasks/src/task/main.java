@@ -47,7 +47,15 @@ public class main {
                 System.out.println(myStream.sorted().collect(Collectors.toList()));
                 break;
             }
+
+            case 5: {
+
+                tasks.getFiles("new");
+
+                break;
+            }
         }
+
 
 
 

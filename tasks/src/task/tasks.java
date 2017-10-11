@@ -1,6 +1,12 @@
 package task;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -46,6 +52,26 @@ public  class tasks {
         return StreamSupport.stream(splt, false)
                 .onClose(scanner::close);
     }
+
+    public static void getFiles(String path) throws IOException {
+
+        List allFiles = Files.walk(Paths.get(path))
+                .filter(p -> p.toString().endsWith(".java"))
+                .filter(Files::isRegularFile)
+                .map(Path::toFile)
+                .collect(Collectors.toList());
+
+        for (Object file:allFiles) {
+            String current = (new java.io.File( "." ).getCanonicalPath())+"\\"+file.toString();
+            if (Files.lines(Paths.get(current), StandardCharsets.UTF_8)
+                    .filter((s) -> s.contains("transient")||s.contains("volatile")).findFirst().orElse("false")!="false")
+                System.out.println(file.toString());
+        }
+
+
+    }
+
+
 
 }
 
